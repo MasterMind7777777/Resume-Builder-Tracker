@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Resume Builder{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center mb-4">Welcome, {{ user.username }}!</h2>
+            <p>This is your dashboard. You can customize it with your own content and functionality.</p>
+            <p>Here are some examples of what you can include:</p>
+            <ul>
+                <li>Display user-specific information</li>
+                <li>Show recent activities or notifications</li>
+                <li>Provide navigation links to different sections of the application</li>
+                <!-- Add more items as needed -->
+            </ul>
+        </div>
+    </div>
+{% endblock %}
