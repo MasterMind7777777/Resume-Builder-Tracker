@@ -13,12 +13,13 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
         $(document).ready(function() {
+            var gridSize = 1; // Adjust the grid size as needed
             // Enable draggable functionality for sections
             $('.section').draggable({
                 containment: '.resume.container', // Restrict dragging within the resume container
                 handle: '.drag-handle', // Use a specific element as the handle for dragging
                 scroll: false, // Disable scrolling while dragging
-                grid: [10, 10] // Set the grid size for dragging
+                grid: [gridSize, gridSize] // Set the grid size for dragging
             });
 
             // Enable resizable functionality for sections using the resize handles
@@ -48,9 +49,20 @@
                 var deltaX = event.pageX - originalX;
                 var newWidth = originalWidth + deltaX;
 
-                // Check if the new width exceeds the container's width
-                var containerWidth = section.closest('.resume.container').width();
-                if (newWidth <= containerWidth) {
+                // Apply grid to resize width
+                newWidth = Math.round(newWidth / gridSize) * gridSize;
+
+                // Check if the new width exceeds the container's width or goes beyond the left edge
+                var container = section.closest('.resume.container');
+                var containerMargin = parseInt(container.css('padding'), 10)
+                var containerWidth = container.width();
+                var containerLeftOffset = container.offset().left;
+
+                var sectionLeft = section.offset().left;
+                var sectionRight = sectionLeft + newWidth;
+
+                if (sectionLeft >= containerLeftOffset && sectionRight <= containerLeftOffset + containerMargin + containerWidth) {
+                    console.log(newWidth);
                     section.css('width', newWidth + 'px');
 
                     // Check if the text inside the sub-section exceeds its width
@@ -77,11 +89,8 @@
                     // Enforce the minimum width based on the longest text line
                     var minSectionWidth = maxWidth;
                     if (newWidth < minSectionWidth) {
-                    section.css('width', minSectionWidth + 'px');
+                        section.css('width', minSectionWidth + 'px');
                     }
-
-                    // Output the width of the longest text line
-                    console.log("Width of the longest text line: " + maxWidth + "px");
                 }
                 });
 
