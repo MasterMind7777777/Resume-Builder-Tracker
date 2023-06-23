@@ -1,0 +1,154 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Adjust Resume Layout</title>
+    <!-- Add your CSS and JS links here -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base_resume_layout.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/edit_tools.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Enable draggable functionality for sections
+            $('.section').draggable({
+                containment: '.resume.container', // Restrict dragging within the resume container
+                handle: '.drag-handle', // Use a specific element as the handle for dragging
+                scroll: false, // Disable scrolling while dragging
+                grid: [10, 10] // Set the grid size for dragging
+            });
+
+            // Enable resizable functionality for sections using the resize handles
+            $('.section').each(function() {
+            var section = $(this);
+            var verticalHandle = section.find('.resize-handle-vertical');
+
+            var originalWidth = section.width();
+            var originalHeight = section.height();
+            var originalX, originalY;
+
+            verticalHandle.on('mousedown', function(event) {
+                event.preventDefault();
+                originalX = event.pageX;
+                originalWidth = section.width();
+
+                $(document).on('mousemove', function(event) {
+
+                function displayTextWidth(text, font) {
+                    let canvas = displayTextWidth.canvas || (displayTextWidth.canvas = document.createElement("canvas"));
+                    let context = canvas.getContext("2d");
+                    context.font = font;
+                    let metrics = context.measureText(text);
+                    return metrics.width;
+                }
+
+                var deltaX = event.pageX - originalX;
+                var newWidth = originalWidth + deltaX;
+
+                // Check if the new width exceeds the container's width
+                var containerWidth = section.closest('.resume.container').width();
+                if (newWidth <= containerWidth) {
+                    section.css('width', newWidth + 'px');
+
+                    // Check if the text inside the sub-section exceeds its width
+                    var subSection = section.find('.sub-section');
+                    var paragraphs = subSection.find('p');
+
+                    // Initialize a variable to store the maximum width
+                    var maxWidth = 0;
+
+                    // Iterate through each <p> element
+                    paragraphs.each(function() {
+                    // Get the text content of the <p> element
+                    var text = $(this).text();
+
+                    // Calculate the width of the text using the displayTextWidth function
+                    var width = displayTextWidth(text, section.find('p').css('font'));
+
+                    // Update the maximum width if necessary
+                    if (width > maxWidth) {
+                        maxWidth = width;
+                    }
+                    });
+
+                    // Enforce the minimum width based on the longest text line
+                    var minSectionWidth = maxWidth;
+                    if (newWidth < minSectionWidth) {
+                    section.css('width', minSectionWidth + 'px');
+                    }
+
+                    // Output the width of the longest text line
+                    console.log("Width of the longest text line: " + maxWidth + "px");
+                }
+                });
+
+                $(document).on('mouseup', function() {
+                $(document).off('mousemove');
+                $(document).off('mouseup');
+                });
+            });
+            });
+
+            // Handle form submission to save adjusted layout
+            $('form').submit(function(event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                // Generate the adjusted layout HTML dynamically
+                var adjustedLayout = $('.resume.container').html();
+
+                // Create the data object to send in the request
+                var data = {
+                    layout_id: 123, // Replace with the actual layout ID
+                    adjusted_layout: adjustedLayout
+                };
+
+                // Send the AJAX request to save the adjusted layout
+                $.ajax({
+                    type: 'POST',
+                    url: '/api_v1/resumes/save_adjusted_layout/',
+                    data: data,
+                    success: function(response) {
+                        // Handle the success response
+                        console.log(response);
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        // Handle the error response
+                        console.error(errorThrown);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Adjust Resume Layout</h1>
+
+    <!-- Display the existing resume layout -->
+    <div class="resume container">
+        <h1>Resume {{ resume }}</h1>
+
+        <!-- Insert the sections here -->
+        {% block content %}
+        {% for section in info_sections %}
+            {% if section.include %}
+                <div class="section">
+                    <i class="drag-handle fas fa-arrows-alt"></i>
+                    {% include section.template %}
+                    <i class="resize-handle-vertical fas fa-grip-vertical"></i>
+                </div>
+            {% endif %}
+        {% endfor %}
+        {% endblock %}
+    </div>
+
+    <!-- Provide options for adjusting the layout -->
+    <form method="POST" action="">
+        {% csrf_token %}
+        <input type="hidden" name="resume_id" value="{{ resume.id }}">
+        <button type="submit">Save Layout</button>
+    </form>
+</body>
+</html>

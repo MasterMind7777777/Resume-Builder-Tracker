@@ -6,7 +6,9 @@ body {
 }
 
 .resume {
-    max-width: 794px; /* A4 paper width - 1 inch margin on each side */
+    position: relative; /* Add relative positioning to the .resume container */
+    width: 794px; /* A4 paper width in pixels */
+    height: 1123px; /* A4 paper height in pixels */
     margin: 50px auto;
     padding: 30px;
     background-color: #ffffff;
@@ -17,6 +19,7 @@ body {
     margin-bottom: 30px;
 }
 
+
 .section h2 {
     font-size: 24px;
     margin-bottom: 15px;
@@ -25,7 +28,7 @@ body {
 
 .section p {
     margin: 0;
-    font-size: 16px;
+    font-size: 10px;
     line-height: 1.5;
     color: #555555;
 }

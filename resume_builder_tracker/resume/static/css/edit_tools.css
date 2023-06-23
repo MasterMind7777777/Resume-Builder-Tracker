@@ -1,0 +1,5 @@
+.resize-handle-vertical {
+    position: absolute;
+    right: 0;
+    top: 50%;
+}
