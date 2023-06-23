@@ -6,6 +6,7 @@ class ResumeAdmin(admin.ModelAdmin):
     list_display = ('title', 'user')
     search_fields = ('title', 'user__username')
 
+
 @admin.register(Education)
 class EducationAdmin(admin.ModelAdmin):
     list_display = ('institution', 'degree', 'field_of_study')

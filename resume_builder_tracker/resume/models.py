@@ -28,10 +28,10 @@ class Education(models.Model):
 class Experience(models.Model):
     company = models.CharField(max_length=100, help_text="Name of the company or organization")
     position = models.CharField(max_length=100, help_text="Job position or title")
-    responsibilities = models.TextField(blank=True,help_text="Responsibilities or tasks performed")
-    location = models.CharField(blank=True,max_length=100, help_text="Location of the company or organization")
-    start_date = models.DateField(blank=True,help_text="Start date of the experience")
-    end_date = models.DateField(blank=True,help_text="End date of the experience")
+    responsibilities = models.TextField(blank=True, help_text="Responsibilities or tasks performed")
+    location = models.CharField(blank=True, max_length=100, help_text="Location of the company or organization")
+    start_date = models.DateField(blank=True, null=True, help_text="Start date of the experience")
+    end_date = models.DateField(blank=True, null=True, help_text="End date of the experience")
     description = models.TextField(blank=True, help_text="Additional details or description of the experience")
 
     def __str__(self):
