@@ -1,0 +1,28 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resume</title>
+    <!-- Add your CSS and JS links here -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base_resume_layout.css' %}">
+</head>
+<body>
+    <div class="resume container">
+        <h1>Resume {{ resume }}</h1>
+
+        <!-- Insert the sections here -->
+        {% block content %}
+        {% for section in info_sections %}
+            {% if section.include %}
+                <div class="section">
+                    {% include section.template %}
+                </div>
+            {% endif %}
+        {% endfor %}
+        {% endblock %}
+
+    </div>
+</body>
+</html>

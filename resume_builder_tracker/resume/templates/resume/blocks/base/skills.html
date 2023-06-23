@@ -1,0 +1,17 @@
+<h2>Skills</h2>
+<div class="sub-section">
+    <ul>
+        {% for skill in resume.skills.all %}
+        <li>{{ skill.name }}</li>
+        {% if skill.description %}
+        <p><strong>Description:</strong> {{ skill.description }}</p>
+        {% endif %}
+        {% if skill.years_of_experience %}
+        <p><strong>Years of Experience:</strong> {{ skill.years_of_experience }}</p>
+        {% endif %}
+        {% if skill.proficiency_level %}
+        <p><strong>Proficiency Level:</strong> {{ skill.proficiency_level }}</p>
+        {% endif %}
+        {% endfor %}
+    </ul>
+</div>

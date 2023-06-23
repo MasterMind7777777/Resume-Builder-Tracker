@@ -1,0 +1,17 @@
+<h2>Education</h2>
+{% for education in resume.educations.all %}
+<div class="sub-section">
+    <p><strong>University Name:</strong> {{ education.institution }}</p>
+    <p><strong>Degree:</strong> {{ education.degree }}</p>
+    {% if education.field_of_study %}
+    <p><strong>Major:</strong> {{ education.field_of_study }}</p>
+    {% endif %}
+    <p><strong>Graduation Year:</strong> {{ education.graduation_year }}</p>
+    {% if education.honors %}
+    <p><strong>Honors:</strong> {{ education.honors }}</p>
+    {% endif %}
+    {% if education.description %}
+    <p><strong>Description:</strong> {{ education.description }}</p>
+    {% endif %}
+</div>
+{% endfor %}

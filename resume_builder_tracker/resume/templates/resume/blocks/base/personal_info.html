@@ -1,0 +1,27 @@
+<h2>Personal Information</h2>
+{% for contact_info in resume.contact_information.all %}
+<div class="sub-section">
+    <p><strong>Name:</strong> {{ contact_info.full_name }}</p>
+    {% if contact_info.email %}
+    <p><strong>Email:</strong> {{ contact_info.email }}</p>
+    {% endif %}
+    {% if contact_info.phone_number %}
+    <p><strong>Phone:</strong> {{ contact_info.phone_number }}</p>
+    {% endif %}
+    {% if contact_info.address %}
+    <p><strong>Address:</strong> {{ contact_info.address }}</p>
+    {% endif %}
+    {% if contact_info.website %}
+    <p><strong>Website:</strong> {{ contact_info.website }}</p>
+    {% endif %}
+    {% if contact_info.linkedin %}
+    <p><strong>LinkedIn:</strong> {{ contact_info.linkedin }}</p>
+    {% endif %}
+    {% if contact_info.twitter %}
+    <p><strong>Twitter:</strong> {{ contact_info.twitter }}</p>
+    {% endif %}
+    {% if contact_info.github %}
+    <p><strong>GitHub:</strong> {{ contact_info.github }}</p>
+    {% endif %}
+</div>
+{% endfor %}
