@@ -15,6 +15,19 @@
         $(document).ready(function() {
         var gridSize = 20; // Adjust the grid size as needed
 
+
+        // Adjust section positions on page load
+        $('.section').each(function() {
+        var section = $(this);
+        var sectionOffset = section.offset();
+        var adjustedOffset = {
+            top: Math.round(sectionOffset.top / gridSize) * gridSize,
+            left: Math.round(sectionOffset.left / gridSize) * gridSize
+        };
+
+        section.offset(adjustedOffset);
+        });
+
         // Enable draggable functionality for sections
         $('.section').draggable({
             containment: '.resume.container', // Restrict dragging within the resume container
