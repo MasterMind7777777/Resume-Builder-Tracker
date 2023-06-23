@@ -20,10 +20,12 @@ INSTALLED_APPS = [
     # Internal apps
     'users',
     'core',
+    'resume',
     # Third party
     'crispy_forms',
     'bootstrap4',
     'crispy_bootstrap4',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
